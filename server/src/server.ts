@@ -11,7 +11,7 @@ const unsplash = new Unsplash({
   secret: process.env.SECRET_KEY
 })
 
-router.get('/phtots/:page', async ctx => {
+router.get('/api/:page', async ctx => {
   const res = await unsplash.search.photos('nature', ctx.params.page)
   const json: Res = await res.json()
   ctx.body = json.results
