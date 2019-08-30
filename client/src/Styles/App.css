@@ -1,0 +1,15 @@
+html,
+body {
+  margin: 0;
+}
+
+.App {
+  line-height: 0;
+  column-count: 5;
+  column-gap: 0;
+}
+
+.App img {
+  width: 100%;
+  height: auto;
+}

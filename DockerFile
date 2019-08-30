@@ -12,7 +12,7 @@ RUN cd client && \
   npm run build && \
   npm prune --production
 
-WORKDIR /app/server/build
+WORKDIR /app/server/build/server/src
 EXPOSE 5000
 ENV NODE_ENV production
 ENTRYPOINT [ "node", "server.js" ]

@@ -3,6 +3,12 @@ export interface Res {
   stat: string
 }
 
+export interface Params {
+  lat: number
+  lon: number
+  page: number
+}
+
 export interface Photos {
   page: number
   pages: number

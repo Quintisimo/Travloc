@@ -1,28 +1,38 @@
+import path from 'path'
 import Koa from 'koa'
+import serve from 'koa-static'
+import Body from 'koa-body'
 import Router from 'koa-router'
 import axios from 'axios'
-import { Res } from './interface'
+import { Res, Params } from '../../interface'
 
 const app = new Koa()
 const router = new Router()
 
-router.get('/api/:page', async ctx => {
+router.post('/api', async ctx => {
+  const params = <Params>ctx.request.body
   const res = await axios.get<Res>('https://www.flickr.com/services/rest/', {
     params: {
       method: 'flickr.photos.search',
       api_key: process.env.FLICKR_ACCESS_KEY,
-      text: 'nature',
-      page: ctx.params.page,
+      text: 'landscape',
       format: 'json',
       nojsoncallback: 1,
-      lat: -27.3568209,
-      lon: 153.0709907,
-      extras: 'url_l,geo'
+      extras: 'url_l,geo',
+      safe_search: 1,
+      ...params
     }
   })
   ctx.body = res.data
 })
 
-app.use(router.routes()).use(router.allowedMethods())
+app
+  .use(Body())
+  .use(router.routes())
+  .use(router.allowedMethods())
 
-app.listen(3000)
+if (process.env.NODE_ENV === 'production') {
+  app.use(serve(path.join(__dirname, '../../../../client/build')))
+}
+
+app.listen(5000)

@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Find places to visit across the world",
   "scripts": {
-    "dev": "ts-node -r dotenv/config src/server.ts",
-    "prestart": "tsc",
-    "start": "node build/server.js"
+    "start": "concurrently \"ts-node -r dotenv/config src/server.ts\" \"cd ../client && npm start\"",
+    "build": "tsc"
   },
   "author": "Quintus Cardozo",
   "license": "ISC",
@@ -13,6 +12,8 @@
     "@types/dotenv": "^6.1.1",
     "@types/koa": "^2.0.49",
     "@types/koa-router": "^7.0.42",
+    "@types/koa-static": "^4.0.1",
+    "concurrently": "^4.1.2",
     "dotenv": "^8.1.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
@@ -20,6 +21,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "koa": "^2.8.1",
-    "koa-router": "^7.4.0"
+    "koa-body": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0"
   }
 }
