@@ -1,20 +1,26 @@
 import Koa from 'koa'
 import Router from 'koa-router'
-import Unsplash from 'unsplash-js'
-import 'isomorphic-fetch'
+import axios from 'axios'
 import { Res } from './interface'
 
 const app = new Koa()
 const router = new Router()
-const unsplash = new Unsplash({
-  applicationId: process.env.ACCESS_KEY,
-  secret: process.env.SECRET_KEY
-})
 
 router.get('/api/:page', async ctx => {
-  const res = await unsplash.search.photos('nature', ctx.params.page)
-  const json: Res = await res.json()
-  ctx.body = json.results
+  const res = await axios.get<Res>('https://www.flickr.com/services/rest/', {
+    params: {
+      method: 'flickr.photos.search',
+      api_key: process.env.FLICKR_ACCESS_KEY,
+      text: 'nature',
+      page: ctx.params.page,
+      format: 'json',
+      nojsoncallback: 1,
+      lat: -27.3568209,
+      lon: 153.0709907,
+      extras: 'url_l,geo'
+    }
+  })
+  ctx.body = res.data
 })
 
 app.use(router.routes()).use(router.allowedMethods())
