@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import React, { useEffect, FC, useState } from 'react'
+import axios from 'axios'
 import { Global, css, jsx } from '@emotion/core'
 import { Params, Res, Photo } from '../../interface'
 
@@ -8,13 +9,10 @@ const App: FC = () => {
   const [photos, setPhotos] = useState<Photo[]>([])
 
   useEffect(() => {
-    fetch('/api', {
-      method: 'post',
-      body: JSON.stringify(params)
-    })
-      .then(res => res.json())
-      .then((res: Res) => setPhotos(res.photos.photo))
-    console.log('Request')
+    axios
+      .post<Res>('/api', params)
+      .then(res => setPhotos(res.data.photos.photo))
+      .catch(err => alert(err.message))
   }, [params])
 
   return (
