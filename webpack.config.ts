@@ -15,10 +15,7 @@ const config: Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
-        options: {
-          useCache: true
-        }
+        loader: 'awesome-typescript-loader'
       }
     ]
   },
