@@ -56,3 +56,9 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# react cache
+.awcache
+
+server-build
+client-build

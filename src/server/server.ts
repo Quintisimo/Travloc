@@ -4,7 +4,7 @@ import serve from 'koa-static'
 import Body from 'koa-body'
 import Router from 'koa-router'
 import axios from 'axios'
-import { Res, Params } from '../../interface'
+import { Res, Params } from '../interface'
 
 const app = new Koa()
 const router = new Router()
@@ -32,7 +32,7 @@ app
   .use(router.allowedMethods())
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(serve(path.join(__dirname, '../../../../client/build')))
+  app.use(serve(path.join(__dirname, '../client-build')))
 }
 
 app.listen(5000)
