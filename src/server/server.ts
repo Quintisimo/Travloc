@@ -10,20 +10,24 @@ const app = new Koa()
 const router = new Router()
 
 router.post('/api', async ctx => {
-  const params = <Params>ctx.request.body
-  const res = await axios.get<Res>('https://www.flickr.com/services/rest/', {
-    params: {
-      method: 'flickr.photos.search',
-      api_key: process.env.FLICKR_ACCESS_KEY,
-      text: 'landscape',
-      format: 'json',
-      nojsoncallback: 1,
-      extras: 'url_l,geo',
-      safe_search: 1,
-      ...params
-    }
-  })
-  ctx.body = res.data
+  try {
+    const params = <Params>ctx.request.body
+    const res = await axios.get<Res>('https://www.flickr.com/services/rest/', {
+      params: {
+        method: 'flickr.photos.search',
+        api_key: process.env.FLICKR_ACCESS_KEY,
+        text: 'nature',
+        format: 'json',
+        nojsoncallback: 1,
+        extras: 'url_l,geo',
+        safe_search: 1,
+        ...params
+      }
+    })
+    ctx.body = res.data
+  } catch (error) {
+    ctx.throw(400, error.response.data || error.response || error.message)
+  }
 })
 
 app

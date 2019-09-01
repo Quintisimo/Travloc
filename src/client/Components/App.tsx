@@ -3,10 +3,15 @@ import React, { useEffect, FC, useState } from 'react'
 import axios from 'axios'
 import { Global, css, jsx } from '@emotion/core'
 import { Params, Res, Photo } from '../../interface'
+import Header from './Header'
+import Grid from './Grid'
+import Modal from './Modal'
 
 const App: FC = () => {
   const [params, setParams] = useState<Partial<Params>>({ page: 1 })
   const [photos, setPhotos] = useState<Photo[]>([])
+  const [open, setOpen] = useState(false)
+  const [photo, setPhoto] = useState<Photo | null>(null)
 
   useEffect(() => {
     axios
@@ -25,7 +30,7 @@ const App: FC = () => {
           }
         `}
       />
-      <button
+      {/* <button
         onClick={e => {
           const loc = navigator.geolocation
           if (!loc) return alert('Location Not Supported')
@@ -41,26 +46,10 @@ const App: FC = () => {
         }}
       >
         Location
-      </button>
-      <div
-        css={css`
-          line-height: 0;
-          column-count: 5;
-          column-gap: 0;
-        `}
-      >
-        {photos.map(photo => (
-          <img
-            key={photo.id}
-            css={css`
-              width: 100%;
-              height: auto;
-            `}
-            src={photo.url_l}
-            alt={photo.title}
-          />
-        ))}
-      </div>
+      </button> */}
+      <Header />
+      <Grid photos={photos} setOpen={setOpen} setPhoto={setPhoto} />
+      {photo !== null && <Modal open={open} setOpen={setOpen} photo={photo} />}
     </React.Fragment>
   )
 }
