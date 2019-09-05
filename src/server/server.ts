@@ -21,6 +21,8 @@ router.post('/api', async ctx => {
         nojsoncallback: 1,
         extras: 'url_l,geo',
         safe_search: 1,
+        has_geo: 1,
+        geo_context: 2,
         ...params
       }
     })

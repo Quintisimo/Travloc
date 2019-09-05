@@ -17,23 +17,26 @@ const Grid: FC<Props> = ({ photos, setOpen, setPhoto }) => (
       column-gap: 0;
     `}
   >
-    {photos.map(photo => (
-      <img
-        key={photo.id}
-        onClick={e => {
-          setPhoto(photo)
-          setOpen(true)
-        }}
-        css={css`
-          width: 100%;
-          height: auto;
-          cursor: pointer;
-        `}
-        src={photo.url_l}
-        alt={photo.title}
-        title={photo.title}
-      />
-    ))}
+    {photos.map(
+      photo =>
+        photo.url_l && (
+          <img
+            key={photo.id}
+            onClick={e => {
+              setPhoto(photo)
+              setOpen(true)
+            }}
+            css={css`
+              width: 100%;
+              height: auto;
+              cursor: pointer;
+            `}
+            src={photo.url_l}
+            alt={photo.title}
+            title={photo.title}
+          />
+        )
+    )}
   </div>
 )
 

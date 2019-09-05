@@ -8,7 +8,6 @@ const Header: FC = () => (
       text-align: center;
       padding: 30px;
       font-size: 4vw;
-      font-family: 'Fira Code', monospace;
       color: #707070;
     `}
   >
