@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState, Component } from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
 import { debounce } from 'debounce'
 import { IoIosPin } from 'react-icons/io'

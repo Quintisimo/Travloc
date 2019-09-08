@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from 'react'
+import React, { FC } from 'react'
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Photo } from '../../interface'
 import { LatLng } from 'leaflet'
