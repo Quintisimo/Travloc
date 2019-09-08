@@ -1,36 +1,34 @@
-/** @jsx jsx */
-import { FC, Dispatch, SetStateAction } from 'react'
-import { css, jsx } from '@emotion/core'
+import React, { FC } from 'react'
 import { Photo } from '../../interface'
 
 type Props = {
   photos: Photo[]
-  setOpen: Dispatch<SetStateAction<boolean>>
-  setPhoto: Dispatch<SetStateAction<Photo>>
+  setOpen: (open: boolean) => void
+  setPhoto: (photo: Photo) => void
 }
 
 const Grid: FC<Props> = ({ photos, setOpen, setPhoto }) => (
   <div
-    css={css`
-      line-height: 0;
-      column-count: 5;
-      column-gap: 0;
-    `}
+    style={{
+      lineHeight: 0,
+      columnCount: 5,
+      columnGap: 0
+    }}
   >
     {photos.map(
-      photo =>
+      (photo, i) =>
         photo.url_l && (
           <img
-            key={photo.id}
+            key={i}
             onClick={e => {
               setPhoto(photo)
               setOpen(true)
             }}
-            css={css`
-              width: 100%;
-              height: auto;
-              cursor: pointer;
-            `}
+            style={{
+              width: '100%',
+              height: 'auto',
+              cursor: 'pointer'
+            }}
             src={photo.url_l}
             alt={photo.title}
             title={photo.title}

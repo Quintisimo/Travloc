@@ -1,15 +1,14 @@
-/** @jsx jsx */
-import { FC } from 'react'
-import { css, jsx } from '@emotion/core'
+import React, { FC } from 'react'
 
 const Header: FC = () => (
   <h1
-    css={css`
-      text-align: center;
-      padding: 30px;
-      font-size: 4vw;
-      color: #707070;
-    `}
+    style={{
+      textAlign: 'center',
+      padding: '30px',
+      fontSize: '4vw',
+      color: '#707070',
+      fontFamily: "'Fira Code', monospace"
+    }}
   >
     Places to visit around the world
   </h1>

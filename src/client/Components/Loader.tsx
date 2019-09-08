@@ -1,24 +1,23 @@
-/** @jsx jsx */
+import React, { FC } from 'react'
 import Spinner from 'react-loading'
-import { FC } from 'react'
-import { css, jsx } from '@emotion/core'
 
 const Loader: FC = () => {
   return (
     <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-      `}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        fontFamily: "'Fira Code', monospace"
+      }}
     >
       <Spinner type='balls' color='black' width={200} />
       <h2
-        css={css`
-          padding-top: 60px;
-        `}
+        style={{
+          paddingTop: '60px'
+        }}
       >
         Loading images from Flickr
       </h2>
