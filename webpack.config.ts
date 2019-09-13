@@ -11,6 +11,11 @@ const config: Configuration = {
     path: path.join(__dirname, 'src/client-build'),
     filename: 'bundle.min.js'
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
   module: {
     rules: [
       {
