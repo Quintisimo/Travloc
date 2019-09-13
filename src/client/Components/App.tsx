@@ -29,34 +29,11 @@ class App extends Component<{}, State> {
     error: false
   }
 
+  // Fetch images from the server
   private getImages = async () => {
     this.setState({ error: false, loading: true })
     try {
       const res = await axios.get<Res>('/api', { params: this.state.params })
-      this.setState({
-        photos: res.data.photos.photo
-      })
-    } catch (err) {
-      this.setState({ error: true })
-    } finally {
-      this.setState({ loading: false })
-    }
-  }
-
-  componentDidMount() {
-    this.getImages()
-    window.addEventListener('scroll', this.loadMore)
-  }
-
-  componentWillUnMount() {
-    window.removeEventListener('scroll', this.loadMore)
-  }
-
-  async componentDidUpdate(prevProps: {}, prevState: State) {
-    if (prevState.params !== this.state.params && this.state.more) {
-      this.setState({ loading: true })
-      const res = await axios.get<Res>('/api', { params: this.state.params })
-
       if (res.data.photos.photo) {
         this.setState(prev => ({
           photos: [...prev.photos, ...res.data.photos.photo]
@@ -65,9 +42,14 @@ class App extends Component<{}, State> {
       } else {
         this.setState({ more: false })
       }
+    } catch (err) {
+      this.setState({ error: true })
+    } finally {
+      this.setState({ loading: false })
     }
   }
 
+  // Load more images when the user scrolls to the bottom of the page
   private loadMore = debounce(() => {
     if (
       document.documentElement.clientHeight +
@@ -82,6 +64,21 @@ class App extends Component<{}, State> {
       this.setState({ params: newParams })
     }
   }, 500)
+
+  componentDidMount() {
+    this.getImages()
+    window.addEventListener('scroll', this.loadMore)
+  }
+
+  componentWillUnMount() {
+    window.removeEventListener('scroll', this.loadMore)
+  }
+
+  componentDidUpdate(prevProps: {}, prevState: State) {
+    if (prevState.params !== this.state.params && this.state.more) {
+      this.getImages()
+    }
+  }
 
   render() {
     return (

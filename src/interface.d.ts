@@ -1,3 +1,5 @@
+// Interfaces for the Flickr API
+
 export interface Res {
   photos: Photos
   stat: string
