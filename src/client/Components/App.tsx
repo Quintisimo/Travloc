@@ -15,6 +15,7 @@ type State = {
   open: boolean
   photo: Photo | null
   more: boolean
+  error: boolean
 }
 
 class App extends Component<{}, State> {
@@ -24,21 +25,26 @@ class App extends Component<{}, State> {
     photos: [],
     open: false,
     photo: null,
-    more: true
+    more: true,
+    error: false
   }
 
-  async componentDidMount() {
-    this.setState({ loading: true })
+  private getImages = async () => {
+    this.setState({ error: false, loading: true })
     try {
-      const res = await axios.post<Res>('/api', this.state.params)
+      const res = await axios.get<Res>('/api', { params: this.state.params })
       this.setState({
         photos: res.data.photos.photo
       })
     } catch (err) {
-      alert(err.message)
+      this.setState({ error: true })
     } finally {
       this.setState({ loading: false })
     }
+  }
+
+  componentDidMount() {
+    this.getImages()
     window.addEventListener('scroll', this.loadMore)
   }
 
@@ -49,7 +55,7 @@ class App extends Component<{}, State> {
   async componentDidUpdate(prevProps: {}, prevState: State) {
     if (prevState.params !== this.state.params && this.state.more) {
       this.setState({ loading: true })
-      const res = await axios.post<Res>('/api', this.state.params)
+      const res = await axios.get<Res>('/api', { params: this.state.params })
 
       if (res.data.photos.photo) {
         this.setState(prev => ({
@@ -118,20 +124,48 @@ class App extends Component<{}, State> {
           <IoIosPin />
         </button>
         <Header />
-        {this.state.photos.length > 0 && (
-          <Grid
-            photos={this.state.photos}
-            setOpen={open => this.setState({ open })}
-            setPhoto={photo => this.setState({ photo })}
-          />
-        )}
-        {this.state.loading && <Loader />}
-        {this.state.photo !== null && (
-          <Modal
-            open={this.state.open}
-            setOpen={open => this.setState({ open })}
-            photo={this.state.photo}
-          />
+        {this.state.error ? (
+          <div
+            style={{
+              fontFamily: "'Fira Code', monospace",
+              textAlign: 'center'
+            }}
+          >
+            <h1>Error getting Images from Flickr</h1>
+            <button
+              style={{
+                outline: 'none',
+                border: 'none',
+                background: 'red',
+                fontSize: '20px',
+                padding: '10px',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+              title='Try Again'
+              onClick={this.getImages}
+            >
+              Try Again
+            </button>
+          </div>
+        ) : (
+          <>
+            {this.state.photos.length > 0 && (
+              <Grid
+                photos={this.state.photos}
+                setOpen={open => this.setState({ open })}
+                setPhoto={photo => this.setState({ photo })}
+              />
+            )}
+            {this.state.loading && <Loader />}
+            {this.state.photo !== null && (
+              <Modal
+                open={this.state.open}
+                setOpen={open => this.setState({ open })}
+                photo={this.state.photo}
+              />
+            )}
+          </>
         )}
       </React.Fragment>
     )
