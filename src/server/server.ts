@@ -40,4 +40,4 @@ if (process.env.NODE_ENV === 'production') {
   app.use(serve(path.join(__dirname, '../client-build')))
 }
 
-app.listen(80)
+app.listen(5000)

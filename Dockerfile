@@ -9,6 +9,6 @@ RUN npm install && \
   npm prune --production
 
 WORKDIR /app/src/server-build
-EXPOSE 80
+EXPOSE 5000
 ENV NODE_ENV production
 ENTRYPOINT [ "node", "server.js" ]
