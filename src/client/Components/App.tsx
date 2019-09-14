@@ -120,6 +120,7 @@ class App extends Component<{}, State> {
               : 'Get Location Results'
           }
           onClick={e => {
+            this.setState({ more: true })
             if (this.state.params.lat && this.state.params.lon) {
               this.setState({ params: { page: 0 }, photos: [] })
             } else {

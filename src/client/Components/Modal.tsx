@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker } from 'react-leaflet'
 import { Photo } from '../../interface'
 import { LatLng } from 'leaflet'
 
@@ -73,15 +73,7 @@ const Modal: FC<Props> = ({ open, setOpen, photo }) => {
                 attribution={`<a target="_blank" href="https://maps.google.com/?q=${photo.latitude},${photo.longitude}">Open in Google Maps</a>`}
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               />
-              <Marker position={position}>
-                <Popup>
-                  <a
-                    href={`https://maps.google.com/?q=${photo.latitude},${photo.longitude}`}
-                  >
-                    Open in Google Maps
-                  </a>
-                </Popup>
-              </Marker>
+              <Marker position={position} />
             </Map>
           </div>
         </div>
