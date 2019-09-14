@@ -1,39 +1,32 @@
 import React, { FC } from 'react'
-import { Photo } from '../../interface'
+import Photo from './Photo'
+import { Photo as PhotoType } from '../../interface'
 
 type Props = {
-  photos: Photo[]
+  photos: PhotoType[]
   setOpen: (open: boolean) => void
-  setPhoto: (photo: Photo) => void
+  setPhoto: (photo: PhotoType) => void
 }
 
 const Grid: FC<Props> = ({ photos, setOpen, setPhoto }) => (
   <div
     style={{
       display: 'grid',
-      gridTemplateColumns: 'repeat(5, 1fr)'
+      gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+      gridAutoRows: '100px',
+      gridGap: '10px'
     }}
   >
-    {photos.map(
-      (photo, i) =>
-        photo.url_l && (
-          <div
-            key={i}
-            onClick={e => {
-              setPhoto(photo)
-              setOpen(true)
-            }}
-            title={photo.title}
-            style={{
-              height: '300px',
-              width: '100%',
-              cursor: 'pointer',
-              backgroundImage: `url(${photo.url_l})`,
-              backgroundSize: 'cover'
-            }}
-          />
-        )
-    )}
+    {photos.map((photo, i) => (
+      <Photo
+        key={i}
+        photo={photo}
+        onClick={() => {
+          setPhoto(photo)
+          setOpen(true)
+        }}
+      />
+    ))}
   </div>
 )
 

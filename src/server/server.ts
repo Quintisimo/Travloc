@@ -16,7 +16,7 @@ router.get('/api', async ctx => {
       params: {
         method: 'flickr.photos.search',
         api_key: process.env.FLICKR_ACCESS_KEY,
-        text: 'nature',
+        text: 'nature landscape',
         format: 'json',
         nojsoncallback: 1,
         extras: 'url_l,geo',

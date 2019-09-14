@@ -42,4 +42,5 @@ export interface Photo {
   url_l?: string
   height_l?: string
   width_l?: string
+  span?: number
 }

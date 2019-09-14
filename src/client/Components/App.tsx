@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { debounce } from 'debounce'
-import { IoIosPin } from 'react-icons/io'
+import { IoIosPin, IoIosGlobe } from 'react-icons/io'
 import Header from './Header'
 import Loader from './Loader'
 import Grid from './Grid'
@@ -29,18 +29,25 @@ class App extends Component<{}, State> {
     error: false
   }
 
+  private imageHeight = (min: number, max: number) =>
+    Math.floor(Math.random() * (max - min + 1) + min)
+
   // Fetch images from the server
   private getImages = async () => {
     this.setState({ error: false, loading: true })
     try {
       const res = await axios.get<Res>('/api', { params: this.state.params })
-      if (res.data.photos.photo) {
+      if (res.data.photos.photo.length) {
         this.setState(prev => ({
           photos: [
             ...prev.photos,
-            ...res.data.photos.photo.filter(
-              photo => Boolean(photo.url_l) !== false
-            )
+            ...res.data.photos.photo
+              .filter(photo => Boolean(photo.url_l) !== false)
+              .map(photo => ({
+                ...photo,
+                // Generate random number between 2 and 3
+                span: Math.floor(Math.random() * (3 - 2 + 1) + 2)
+              }))
           ]
         }))
         this.setState({ loading: false })
@@ -58,7 +65,8 @@ class App extends Component<{}, State> {
   private loadMore = debounce(() => {
     if (
       document.documentElement.clientHeight +
-        document.documentElement.scrollTop >=
+        document.documentElement.scrollTop +
+        document.documentElement.scrollTop / 4 >=
         document.documentElement.scrollHeight &&
       !this.state.loading
     ) {
@@ -103,27 +111,40 @@ class App extends Component<{}, State> {
             background: 'black',
             border: 'none',
             outline: 'none',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            zIndex: 2
           }}
-          title='Get Location'
+          title={
+            this.state.params.lat && this.state.params.lon
+              ? 'Get Global Results'
+              : 'Get Location Results'
+          }
           onClick={e => {
-            const loc = navigator.geolocation
-            if (!loc) return alert('Location Not Supported')
-            navigator.geolocation.getCurrentPosition(
-              ({ coords }) =>
-                this.setState({
-                  params: {
-                    page: 0,
-                    lon: coords.longitude,
-                    lat: coords.latitude
-                  },
-                  photos: []
-                }),
-              ({ message }) => alert(message)
-            )
+            if (this.state.params.lat && this.state.params.lon) {
+              this.setState({ params: { page: 0 }, photos: [] })
+            } else {
+              const loc = navigator.geolocation
+              if (!loc) return alert('Location Not Supported')
+              navigator.geolocation.getCurrentPosition(
+                ({ coords }) =>
+                  this.setState({
+                    params: {
+                      page: 0,
+                      lon: coords.longitude,
+                      lat: coords.latitude
+                    },
+                    photos: []
+                  }),
+                ({ message }) => alert(message)
+              )
+            }
           }}
         >
-          <IoIosPin />
+          {this.state.params.lat && this.state.params.lon ? (
+            <IoIosGlobe />
+          ) : (
+            <IoIosPin />
+          )}
         </button>
         <Header />
         {this.state.error ? (

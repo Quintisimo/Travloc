@@ -44,7 +44,8 @@ const Modal: FC<Props> = ({ open, setOpen, photo }) => {
         >
           <h3
             style={{
-              fontFamily: "'Fira Code', monospace"
+              fontFamily: "'Fira Code', monospace",
+              textTransform: 'capitalize'
             }}
           >
             {photo.title}
@@ -57,21 +58,29 @@ const Modal: FC<Props> = ({ open, setOpen, photo }) => {
           >
             <img
               style={{
-                height: '100%'
+                margin: '10px',
+                height: '100%',
+                maxWidth: '50%'
               }}
               src={photo.url_l}
             />
             <Map
               center={position}
               zoom={13}
-              style={{ height: '100%', flex: 1 }}
+              style={{ height: '100%', flex: 1, margin: '10px' }}
             >
               <TileLayer
                 attribution={`<a target="_blank" href="https://maps.google.com/?q=${photo.latitude},${photo.longitude}">Open in Google Maps</a>`}
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               />
               <Marker position={position}>
-                <Popup>{photo.title}</Popup>
+                <Popup>
+                  <a
+                    href={`https://maps.google.com/?q=${photo.latitude},${photo.longitude}`}
+                  >
+                    Open in Google Maps
+                  </a>
+                </Popup>
               </Marker>
             </Map>
           </div>
@@ -85,8 +94,8 @@ const Modal: FC<Props> = ({ open, setOpen, photo }) => {
             background: 'red',
             borderRadius: '10px',
             position: 'absolute',
-            bottom: '20px',
-            right: '20px',
+            bottom: '10px',
+            right: '10px',
             fontSize: '15px',
             fontFamily: "'Fira Code', monospace",
             cursor: 'pointer'
