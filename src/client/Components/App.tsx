@@ -36,7 +36,12 @@ class App extends Component<{}, State> {
       const res = await axios.get<Res>('/api', { params: this.state.params })
       if (res.data.photos.photo) {
         this.setState(prev => ({
-          photos: [...prev.photos, ...res.data.photos.photo]
+          photos: [
+            ...prev.photos,
+            ...res.data.photos.photo.filter(
+              photo => Boolean(photo.url_l) !== false
+            )
+          ]
         }))
         this.setState({ loading: false })
       } else {

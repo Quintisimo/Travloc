@@ -10,28 +10,27 @@ type Props = {
 const Grid: FC<Props> = ({ photos, setOpen, setPhoto }) => (
   <div
     style={{
-      lineHeight: 0,
-      columnCount: 5,
-      columnGap: 0
+      display: 'grid',
+      gridTemplateColumns: 'repeat(5, 1fr)'
     }}
   >
     {photos.map(
       (photo, i) =>
         photo.url_l && (
-          <img
+          <div
             key={i}
             onClick={e => {
               setPhoto(photo)
               setOpen(true)
             }}
-            style={{
-              width: '100%',
-              height: 'auto',
-              cursor: 'pointer'
-            }}
-            src={photo.url_l}
-            alt={photo.title}
             title={photo.title}
+            style={{
+              height: '300px',
+              width: '100%',
+              cursor: 'pointer',
+              backgroundImage: `url(${photo.url_l})`,
+              backgroundSize: 'cover'
+            }}
           />
         )
     )}
